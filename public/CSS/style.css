@@ -1,0 +1,118 @@
+body {
+    background: #0f0f0f;
+    color: white;
+}
+
+/* Layout */
+.chat-app {
+    height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 320px;
+    background: #111;
+    padding: 15px;
+    border-right: 1px solid #222;
+}
+
+.search {
+    background: #1a1a1a;
+    border: none;
+    color: white;
+}
+
+.chat-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.chat-item:hover {
+    background: #1f1f1f;
+}
+
+.chat-item.active {
+    background: #2a2a2a;
+}
+
+.chat-item .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.chat-item .info {
+    flex: 1;
+    margin-left: 10px;
+}
+
+.chat-item .name {
+    font-weight: bold;
+}
+
+.chat-item .last {
+    font-size: 12px;
+    color: #aaa;
+}
+
+.chat-item .time {
+    font-size: 12px;
+    color: #777;
+}
+
+/* Chat main */
+.chat-main {
+    background: #000;
+}
+
+/* Header */
+.chat-header {
+    padding: 15px;
+    border-bottom: 1px solid #222;
+}
+
+.chat-header .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+/* Body */
+.chat-body {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.message {
+    margin-bottom: 10px;
+    max-width: 60%;
+}
+
+.message span {
+    padding: 10px 15px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.message.left span {
+    background: #1f1f1f;
+}
+
+.message.right {
+    text-align: right;
+    margin-left: auto;
+}
+
+.message.right span {
+    background: #0d6efd;
+}
+
+/* Input */
+.chat-input {
+    padding: 10px;
+    border-top: 1px solid #222;
+}

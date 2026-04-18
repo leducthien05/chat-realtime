@@ -1,0 +1,1 @@
+const upload = new FileUploadWithPreview.FileUploadWithPreview('my-unique-id');
