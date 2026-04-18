@@ -1,9 +1,14 @@
-//ENV
-require("dotenv").config()
-const port = process.env.PORT;
 //Express
 const express = require('express');
 const app = express();
+//ENV
+require("dotenv").config()
+const port = process.env.PORT;
+const database = require("./config/database");
+database.connect();
+// body-parser
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: true }));
 //SocketIO
 const http = require('http');
 const server = http.createServer(app);
@@ -16,6 +21,9 @@ app.set("views", `${__dirname}/view`);
 app.set("view engine", 'pug');
 //file tĩnh
 app.use(express.static(`${__dirname}/public/`));
+// Cấu hình flash
+const flash = require('express-flash');
+app.use(flash());;
 //router
 const routerChat = require("./router/index.router");
 routerChat(app);

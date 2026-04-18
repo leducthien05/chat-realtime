@@ -7,12 +7,15 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --inspect index.js",
+    "start": "nodemon --inspect index.js --ext js,pug",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.2",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
+    "express-flash": "^0.0.2",
     "mongoose": "^9.3.3",
     "pug": "^3.0.4",
     "socket.io": "^4.8.3"
