@@ -23,6 +23,14 @@ app.set("view engine", 'pug');
 app.use(express.static(`${__dirname}/public/`));
 // Cấu hình flash
 const flash = require('express-flash');
+const session = require("express-session");
+app.use(session({
+  secret: "chat-app-secret",
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(flash());
 app.use(flash());;
 //router
 const routerChat = require("./router/index.router");
@@ -32,7 +40,7 @@ io.on('connection', (socket) => {
   console.log('a user connected');
   //Gửi dữ liệu
   socket.emit("SERVER_SEND_CLIENT", socket.id);
-  socket.on("CLIENT_SEND_MESSAGE", (mess)=>{
+  socket.on("CLIENT_SEND_MESSAGE", (mess) => {
     console.log("message " + mess);
     //A gửi lên server, server chỉ trả về cho A
     //Ví dụ: A gửi tin nhắn lỗi, server gửi thông báo lỗi về cho A
@@ -42,7 +50,7 @@ io.on('connection', (socket) => {
     // io.emit("SERVER_RETURN_MESSAGE", mess);
     socket.broadcast.emit("SERVER_RETURN_MESSAGE", mess)
 
-    
+
   })
 });
 

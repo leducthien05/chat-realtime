@@ -8,7 +8,7 @@
 /* BODY DARK */
 body {
     font-family: Arial, sans-serif;
-    background: #020617;
+    background: #0ee1ec;
 }
 
 /* ===== BACKGROUND ===== */
@@ -17,7 +17,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #0f172a, #020617);
+    background: linear-gradient(135deg, #08c3e4, #038cba);
 }
 
 /* ===== BOX ===== */
@@ -25,8 +25,8 @@ body {
     width: 400px;
     padding: 30px;
     border-radius: 12px;
-    background: #111827;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    background: #085e93;
+    box-shadow: 0 10px 30px rgba(10, 168, 225, 0.5);
     color: #e5e7eb;
 }
 
@@ -53,7 +53,7 @@ body {
     margin-top: 5px;
     border-radius: 6px;
     border: 1px solid #374151;
-    background: #020617;
+    background: #08b9d1;
     color: #e5e7eb;
 }
 
@@ -328,7 +328,7 @@ body {
 .btn-submit {
   width: 100%;
   padding: 12px;
-  background: #f59e0b;
+  background: #05c7ba;
   border: none;
   border-radius: 6px;
   color: #fff;
@@ -338,7 +338,7 @@ body {
 }
 
 .btn-submit:hover {
-  background: #d97706;
+  background: #06d929;
 }
 
 .extra {
