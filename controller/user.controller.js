@@ -28,7 +28,7 @@ module.exports.loginPost = async (req, res)=>{
     if(isPassword){
         res.cookie("tokenUser", user.tokenUser);
     }
-    res.redirect("/");
+    res.redirect("/home");
 }
 // [GET] /user/register
 module.exports.register = async (req, res)=>{
@@ -57,7 +57,7 @@ module.exports.registerPost = async (req, res)=>{
     });
     await user.save();
     res.cookie("tokenUser", user.tokenUser);
-    res.redirect("/");
+    res.redirect("/home");
 }
 // [GET] /user/forgot-password
 module.exports.forgot = async (req, res)=>{
@@ -159,9 +159,10 @@ module.exports.resetPasswordPost = async (req, res)=>{
         deleted: false
     }).select("-password");
     res.cookie("tokenUser", user.tokenUser);
-    res.redirect("/")
+    res.redirect("/home")
 }
 // [GET] /user/logout
 module.exports.logout = async (req, res)=>{
     res.clearCookie("tokenUser");
+    res.redirect("/user/login");
 }

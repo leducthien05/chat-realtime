@@ -1,12 +1,21 @@
-.chat-header
-  .contact-info
-    .avatar
-      img(src="https://i.pravatar.cc/48?u=friend1" alt="Avatar")
-    .info
-      h3 Lan Anh
-      p.status Đang hoạt động
+div(class="header")
+  div(class="header-left")
+    div(class="logo") Linkup
+    input(type="text" placeholder="Tìm kiếm trên Linkup")
 
-  .chat-actions
-    i.fas.fa-phone
-    i.fas.fa-video
-    i.fas.fa-info-circle
+  div(class="header-center")
+    div(class="menu-item active") 🏠
+    div(class="menu-item") 👥
+    div(class="menu-item") 🎥
+    div(class="menu-item") 🛒
+
+  div(class="header-right")
+    div(class="icon") ☰
+    div(class="icon") 💬
+    div(class="icon") 🔔
+    div(class="icon")
+      a(
+        class="icon"
+        href="/user/logout"
+      ) ↩ 
+    div(class="avatar")

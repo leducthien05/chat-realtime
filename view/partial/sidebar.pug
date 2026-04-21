@@ -1,19 +1,38 @@
-.sidebar
-    .sidebar-top
-        h5.text-white.mb-3 Tin nhắn
+div(class="sidebar")
+  h3 Bạn bè
 
-        input.form-control.search(type="text" placeholder="Tìm kiếm...")
+  ul
+    li(
+        menu-item
+    )
+        a(href="/home") Trang chủ
+    li(
+        menu-item
+    )
+        a(
+            href="/friend/request-friend"
+        ) 
+            | Lời mời đã gửi
+            span(
+                class="badge badge-light"
+                data-badge-users-request=Myuser._id
+            ) #{Myuser.requestFriends.length}
+    li(
+        menu-item
+    )
+        a(href="/friend/accept-friend") Lời mời kết bạn
+    li(
+        menu-item
+    )
+        a(href="/friend/no-friend") Gợi ý
 
-        .filter.mt-3
-            button.btn.btn-primary.btn-sm Tất cả
-            button.btn.btn-dark.btn-sm Chưa đọc
-            button.btn.btn-dark.btn-sm Nhóm
+    li(
+        menu-item
+    )
+        a(href="/friend/all-friends") Tất cả bạn bè
 
-    .recent.mt-4
-        //- each item in friend
-        //-     .chat-item(class=item.active ? "active" : "")
-        //-         img.avatar(src=item.avatar)
-        //-         .info
-        //-         .name= item.username
-        //-         //- .last= item.lastMessage
-        //-         //- .time= item.time
+    li(
+        menu-item
+    )
+        a(href="/custom-list") Danh sách tùy chỉnh
+    script(src="/JS/sidebar.js") 

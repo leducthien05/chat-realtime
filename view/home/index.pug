@@ -1,0 +1,24 @@
+extends ../layout/default.pug
+
+block content
+    div(class="content-header")
+        h2 Những người bạn có thể biết
+        a(href="#") Xem tất cả
+
+    div(class="card-list")
+        each item in user
+            // Card 1
+            div(class="card")
+                img(src=item.avatar)
+                h4 #{item.userName}
+                button(
+                    class="btn add"
+                    btn-add-friend = item._id
+                    ) Thêm bạn bè
+                button(
+                    class="btn remove"
+                    btn-remove-friend = item._id
+                    ) Gỡ
+
+block script 
+    script(src="/JS/friend.js") 

@@ -8,8 +8,10 @@ const userSchema = new mongoose.Schema({
     phone: String,
     email: String,
     avatar: String,
+    removeFriends: Array,
     requestFriends: Array,
     acceptFriends: Array, 
+    listCancelFriends: Array,
     listFriends: [
         {
             friend_id: String,
