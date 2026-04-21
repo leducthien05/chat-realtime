@@ -6,24 +6,31 @@ block content
 
     div(class="card-list")
         each item in user
-            // Card 1
             div(
-                class="card"
+                class="card" 
                 id="cart-friend"
             )
                 img(src=item.avatar)
                 h4 #{item.userName}
-                button(
-                    class="btn btn-add"
-                    btn-accept-friend = item._id
-                    ) Thêm bạn bè
-                button(
-                    class="btn btn-remove"
-                    btn-remove-friend = item._id
-                    ) Gỡ
-                button(
-                    class="btn btn-danger btn-sm btn-cancel"
-                ) Đã cầu
+
+                div(class="friend-actions")
+                    button(
+                        class="btn add btn-add btn-accept"
+                        btn-accept-friend = item._id
+                    ) Đồng ý
+
+                    button(
+                        class="btn btn-remove"
+                        btn-refuse-request = item._id
+                    ) Từ chối
+                    button(
+                        class="btn btn-danger btn-sm btn-refuse"
+                    ) Đã từ chối
+
+                    a(
+                        href="/chat"
+                        class="btn btn-danger btn-sm btn-friend"
+                    ) Nhắn tin
 
 block script 
     script(src="/JS/friend.js") 

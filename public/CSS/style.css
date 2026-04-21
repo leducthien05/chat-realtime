@@ -186,7 +186,7 @@ body {
   width: 20px;
   text-align: center;
 }
-/* event click */
+/* event click request*/
 .friend-actions .btn-suggest,
 .friend-actions .btn-cancel {
   display: none;
@@ -209,7 +209,25 @@ body {
 .friend-actions.unsuggest .btn-suggest {
   display: inline-block;
 }
+/* event click accept */
+.friend-actions .btn-refuse {
+  display: none;
+}
+.friend-actions .btn-friend {
+  display: none;
+}
 
+.friend-actions.refused .btn-accept,
+.friend-actions.refused .btn-remove {
+  display: none;
+}
+
+.friend-actions.refused .btn-refuse {
+  display: inline-block;
+}
+.friend-actions.friend .btn-friend {
+  display: inline-block;
+}
 /* badge */
 .badge {
   display: inline-block;

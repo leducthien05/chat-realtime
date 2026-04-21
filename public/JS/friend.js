@@ -11,6 +11,19 @@ if(listBtnFriend.length > 0){
     });
 }
 
+// SERVER_RETURN_REQUEST
+const listBtnRefuse= document.querySelectorAll("[btn-accept-friend]");
+if(listBtnRefuse.length > 0){
+    listBtnRefuse.forEach(btn =>{
+        btn.addEventListener("click", (e)=>{
+            const idUser = btn.getAttribute("btn-accept-friend");
+            const divBody = btn.closest(".friend-actions");
+            divBody.classList.add("friend");
+            socket.emit("CLIENT_ACCEPT_FRIEND", idUser);
+        });
+    });
+}
+
 // CLIENT_CANCEL_FREQUEST
 const listBtnCancel = document.querySelectorAll("[btn-cancel-friend]");
 console.log(listBtnCancel)

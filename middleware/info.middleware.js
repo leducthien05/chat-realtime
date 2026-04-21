@@ -6,11 +6,12 @@ module.exports.info = async (req, res, next) => {
             deleted: false,
             tokenUser: req.cookies.tokenUser
         }).select("-password");
-        if (!user){
+        if (!user) {
             res.redirect("/user/login");
-        }else{
+        } else {
             res.locals.Myuser = user;
-            next();
         }
-    } 
+    }
+    next();
+
 }
