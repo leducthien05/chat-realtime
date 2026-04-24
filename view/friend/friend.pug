@@ -1,0 +1,40 @@
+extends ../layout/default.pug
+
+block content
+    div(class="content-header")
+        h2 Danh sách bạn bè
+
+    div(
+        class="card-list"
+        data-friend=Myuser._id
+        )
+        each item in user
+            div(
+                class="card" 
+                id="cart-friend "
+            )
+                div(
+                    class=(item.statusOnline === "online" ? "status online" : "status")
+                    data-status-online=item._id
+                    )
+                    span(class="status-dot")
+                img(src=item.avatar)
+                h4 #{item.userName}
+
+                div(class="friend-actions friended")
+                    a(
+                        href="/chat"
+                        class="btn add btn-chat"
+                        btn-friend = item._id
+                        style="display:inline-flex; align-items:center; justify-content:center; text-decoration:none; box-sizing:border-box; padding:8px 12px; height:36px;"
+                    ) Nhắn tin
+                    button(
+                        btn-unfriend = item._id
+                        class="btn btn-danger btn-sm btn-unfriend"
+                    ) Hủy kết bạn
+                    button(
+                        class="btn btn-secondary btn-sm btn-unfriended"
+                    ) Đã hủy kết bạn
+
+block script 
+    script(src="/JS/friend.js") 

@@ -4,7 +4,10 @@ block content
     div(class="content-header")
         h2 Lời mời kết bạn
 
-    div(class="card-list")
+    div(
+        class="card-list"
+        data-accept-friend=Myuser._id
+        )
         each item in user
             div(
                 class="card" 
@@ -29,7 +32,7 @@ block content
 
                     a(
                         href="/chat"
-                        class="btn btn-danger btn-sm btn-friend"
+                        class="btn btn-danger btn-chat"
                     ) Nhắn tin
 
 block script 

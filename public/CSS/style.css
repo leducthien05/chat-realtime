@@ -210,22 +210,35 @@ body {
   display: inline-block;
 }
 /* event click accept */
+.friend-actions .btn-chat,
 .friend-actions .btn-refuse {
   display: none;
 }
-.friend-actions .btn-friend {
+.friend-actions.friended .btn-chat {
+  display: inline-block;
+}
+.friend-actions.friended .btn-unfriend {
+  display: inline-block;
+}
+.friend-actions.friended .btn-unfriended {
   display: none;
 }
-
+.friend-actions.unfriended .btn-unfriended {
+  display: inline-block;
+}
+.friend-actions.unfriended .btn-chat,
+.friend-actions.unfriended .btn-unfriend {
+  display: none;
+}
 .friend-actions.refused .btn-accept,
 .friend-actions.refused .btn-remove {
   display: none;
 }
-
-.friend-actions.refused .btn-refuse {
-  display: inline-block;
+.friend-actions.friend .btn-accept,
+.friend-actions.friend .btn-remove {
+  display: none;
 }
-.friend-actions.friend .btn-friend {
+.friend-actions.refused .btn-refuse {
   display: inline-block;
 }
 /* badge */
@@ -245,4 +258,37 @@ body {
   background-color: #f1f3f5;
   color: #333;
   border: 1px solid #ddd;
+}
+
+/* online */
+
+.card {
+  position: relative; /* QUAN TRỌNG */
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* status wrapper */
+.status {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+}
+
+/* dot */
+.status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ccc;
+  border: 2px solid #fff; /* viền trắng giống Facebook */
+  display: block;
+}
+
+/* online */
+.status.online .status-dot {
+  background: #31a24c;
 }

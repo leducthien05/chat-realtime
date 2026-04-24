@@ -19,7 +19,8 @@ module.exports.friend = async (req, res) => {
             // Kiểm tra B có trong requestFriends 
             const existReqA = await User.findOne({
                 _id: myID,
-                requestFriends: idUser
+                requestFriends: idUser,
+                "listFriends.friend_id": idUser
             });
             if (!existReqA) {
                 await User.updateOne({
@@ -34,7 +35,8 @@ module.exports.friend = async (req, res) => {
             // Kiểm tra A có trong AcceptFriends 
             const existAcceptB = await User.findOne({
                 _id: idUser,
-                acceptFriends: myID
+                acceptFriends: myID,
+                "listFriends.friend_id": myID
             });
 
             if (!existAcceptB) {
@@ -51,6 +53,10 @@ module.exports.friend = async (req, res) => {
                 _id: myID,
                 deleted: false
             });
+            const Youruser = await User.findOne({
+                _id: idUser,
+                deleted: false
+            });
             // Thông tin của A trả về cho B
             socket.broadcast.emit("SERVER_RETURN_REQUEST", {
                 myUser: myUser,
@@ -59,8 +65,11 @@ module.exports.friend = async (req, res) => {
             });
             // Trả về số lời mời đã gửi
             const lengthReq = myUser.requestFriends.length;
-            socket.emit("SERVER_RETURN_LENGTH_REQUEST", {
-                length: lengthReq,
+            const lengthAccept = Youruser.acceptFriends.length;
+            console.log(lengthReq, lengthAccept)
+            _io.emit("SERVER_RETURN_LENGTH_REQUEST", {
+                lengthReq: lengthReq,
+                lengthAccept: lengthAccept,
                 myID: myID,
                 userID: idUser
             });
@@ -110,13 +119,19 @@ module.exports.friend = async (req, res) => {
                 });
             }
             // Trả về số lời mời đã gửi
+            const Youruser = await User.findOne({
+                _id: idUser,
+                deleted: false
+            });
+            const lengthAccept = Youruser.acceptFriends.length;
             const myUser = await User.findOne({
                 _id: myID,
                 deleted: false
             });
             const lengthReq = myUser.requestFriends.length;
-            socket.emit("SERVER_RETURN_LENGTH_REQUEST", {
-                length: lengthReq,
+            _io.emit("SERVER_RETURN_LENGTH_REQUEST", {
+                lengthReq: lengthReq,
+                lengthAccept: lengthAccept,
                 myID: myID,
                 userID: idUser
             });
@@ -167,12 +182,14 @@ module.exports.friend = async (req, res) => {
             console.log(idUser, myID)
             const existReqA = await User.findOne({
                 _id: idUser,
-                requestFriends: myID
+                requestFriends: myID,
+                "listFriends.friend_id": {$ne: myID}
             });
             // Kiểm tra A có trong acceptFriends 
             const existAccB = await User.findOne({
                 _id: myID,
-                acceptFriends: idUser
+                acceptFriends: idUser,
+                "listFriends.friend_id": {$ne: idUser}
             });
             let room;
             if (existReqA && existAccB) {
@@ -229,6 +246,138 @@ module.exports.friend = async (req, res) => {
                     }
                 });
             }
+            const myUser = await User.findOne({
+                _id: myID,
+                deleted: false
+            });
+            const Youruser = await User.findOne({
+                _id: idUser,
+                deleted: false
+            });
+            const lengthFriendA = Youruser.listFriends.length;
+            const lengthFriendB = myUser.listFriends.length;
+            // Thông tin của A trả về cho B
+            _io.emit("SERVER_RETURN_LENGTH_FRIEND", {
+                lengthFriendA: lengthFriendA,
+                lengthFriendB: lengthFriendB,
+                myID: myID,
+                userID: idUser
+            });
+            
+        });
+
+        // Hủy kết bạn
+        socket.on("CLIENT_UNFRIEND", async (idUser) => {
+            // Kiểm tra tồn tại idUser hay không
+            const user = await User.findOne({
+                _id: idUser,
+                deleted: false
+            });
+            if (!user) {
+                return;
+            }
+            // myID: Id của A
+            // idUser: Id của B
+            const usera = await User.findOne({
+                _id: myID,
+                deleted: false,
+                "listFriends.friend_id": idUser
+            });
+            const userb = await User.findOne({
+                _id: idUser,
+                deleted: false,
+                "listFriends.friend_id": myID
+            });
+            if (usera && userb) {
+                await User.updateOne({
+                    _id: myID,
+                    deleted: false
+                }, {
+                    $pull: {
+                        listFriends: {
+                            friend_id: idUser
+                        }
+                    }
+                });
+                await User.updateOne({
+                    _id: idUser,
+                    deleted: false
+                }, {
+                    $pull: {
+                        listFriends: {
+                            friend_id: myID
+                        }
+                    }
+                });
+            }  
+            const lengthFriendA = usera.listFriends.length;
+            const lengthFriendB = userb.listFriends.length;
+            _io.emit("SERVER_RETURN_LENGTH_FRIEND", {
+                lengthFriendA: lengthFriendA,
+                lengthFriendB: lengthFriendB,
+                myID: myID,
+                userID: idUser
+            });          
+        });
+
+        // Từ chôi lời mời kết bạn
+        socket.on("CLIENT_REFUSE_FRIEND", async (idUser) => {
+            // Kiểm tra tồn tại idUser hay không
+            const user = await User.findOne({
+                _id: idUser,
+                deleted: false
+            });
+            if (!user) {
+                return;
+            }
+            // myID: Id của A
+            // idUser: Id của B
+            const existReqA = await User.findOne({
+                _id: idUser,
+                requestFriends: myID
+            });
+            const existAccB = await User.findOne({
+                _id: myID,
+                acceptFriends: idUser
+            });
+            if (existAccB) {
+                await User.updateOne({
+                    _id: myID,
+                    deleted: false
+                }, {
+                    $pull: {
+                        acceptFriends: idUser
+                    }
+                });
+            }
+            if (existReqA) {
+                await User.updateOne({
+                    _id: idUser,
+                    deleted: false
+                }, {
+                    $pull: {
+                        requestFriends: myID
+                    }
+                });
+            }
+                // Trả về số lời mời đã gửi
+                const Youruser = await User.findOne({
+                    _id: idUser,
+                    deleted: false
+                });
+                const lengthAccept = Youruser.acceptFriends.length;
+                const myUser = await User.findOne({ 
+                    _id: myID,
+                    deleted: false
+                });
+                const lengthRequest = myUser.requestFriends.length;
+
+                _io.emit("SERVER_RETURN_LENGTH_REQUEST", {
+                    lengthReq: lengthRequest,
+                    lengthAccept: lengthAccept,
+                    myID: myID,
+                    userID: idUser
+                });
         });
     });
 }

@@ -14,20 +14,13 @@ module.exports.index = async (req, res) => {
         deleted: false,
         _id: myID
     });
+    const friend = myUser.listFriends;
     const reqFriend = myUser.requestFriends;
     const accFriend = myUser.acceptFriends;
     const unsuggestFriend = myUser.listCancelFriends;
-    const idReq = reqFriend.map(item =>{
-        return item;
-    });
-    const idAcc = accFriend.map(item =>{
-        return item;
-    });
-    const idUnsuggest = unsuggestFriend.map(item =>{
-        return item;
-    });
+    const idListFriends = friend.map(item => item.friend_id);
     const user = await User.find({
-        _id: {$nin: [myID, ...idReq, ...idAcc, ...idUnsuggest]},
+        _id: {$nin: [myID, ...reqFriend, ...accFriend, ...unsuggestFriend, ...idListFriends]},
         deleted: false,
         status: "active"
     });
@@ -81,6 +74,30 @@ module.exports.acceptfriend = async (req, res) => {
     
     res.render("friend/accept-friend", {
         titlePage: "Lời mời kết bạn",
+        user: user
+    });
+}
+
+// [GET] /friend/all-friends
+module.exports.allfriends = async (req, res) => {
+    // Socket friend
+    socketFriend.friend(req, res);                  
+    // End Socket friend
+    const myID = res.locals.user.id;
+    const myUser = await User.findOne({
+        _id: myID,
+        deleted: false
+    }).select("listFriends");
+    const listFriends = myUser.listFriends;
+    const idListFriends = listFriends.map(item => item.friend_id);
+    const user = await User.find({
+        _id: {$in: idListFriends},
+        deleted: false,
+        status: "active"
+    });
+    
+    res.render("friend/friend", {
+        titlePage: "Danh sách bạn bè",
         user: user
     });
 }

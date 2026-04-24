@@ -21,6 +21,10 @@ div(class="sidebar")
         menu-item
     )
         a(href="/friend/accept-friend") Lời mời kết bạn
+            span(
+                class="badge badge-light"
+                data-badge-users-accept=Myuser._id
+            ) #{Myuser.acceptFriends.length}
     li(
         menu-item
     )
@@ -30,6 +34,10 @@ div(class="sidebar")
         menu-item
     )
         a(href="/friend/all-friends") Tất cả bạn bè
+            span(
+                    class="badge badge-light"
+                    data-badge-users-friend=Myuser._id
+                ) #{Myuser.listFriends.length}
 
     li(
         menu-item
