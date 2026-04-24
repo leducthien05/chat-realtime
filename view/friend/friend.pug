@@ -2,7 +2,13 @@ extends ../layout/default.pug
 
 block content
     div(class="content-header")
-        h2 Danh sách bạn bè
+        .col-6
+            h2 Danh sách bạn bè
+        .col-6.text-end
+            a(
+                href="/chat/create" 
+                class="btn btn-primary btn-sm"
+            ) Tạo phòng chat
 
     div(
         class="card-list"

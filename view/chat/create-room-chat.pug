@@ -1,0 +1,44 @@
+extends ../layout/default.pug
+
+block content
+    div.create-group
+        h3 Tạo nhóm chat
+
+        form(
+            action="/chat/create" 
+            method="POST"
+        )
+            .form-group
+                label Tên nhóm
+                input(
+                    type="text" 
+                    name="title" 
+                    placeholder="Nhập tên nhóm..." 
+                    required
+                )
+
+            .form-group
+                label Ảnh nhóm
+                input(
+                    type="file" 
+                    name="avatar" 
+                    accept="image/*"
+                )
+
+            .form-group
+                label Chọn thành viên
+                .member-list
+                    each item in listFriend
+                        label.member-item
+                            input(
+                                type="checkbox" 
+                                name="user_id" 
+                                value=item._id
+                            )
+                            img(src=item.avatar)
+                            span #{item.userName}
+
+            button(
+                class="btn btn-create" 
+                type="submit"
+            ) Tạo nhóm
