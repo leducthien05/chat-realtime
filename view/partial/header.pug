@@ -1,7 +1,11 @@
 div(class="header")
   div(class="header-left")
     div(class="logo") Linkup
-    input(type="text" placeholder="Tìm kiếm trên Linkup")
+    form(
+      method="GET",
+      form-search
+    )
+      input(type="text" placeholder="Tìm kiếm trên Linkup")
 
   div(class="header-center")
     div(class="menu-item active") 🏠

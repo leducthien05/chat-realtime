@@ -1,5 +1,6 @@
 const User = require("../model/user.model");
 
+const searchHelper = require("../helper/search");
 const socketFriend = require("../socket/friend.socket");
 
 // [GET] /friend/no-friend
@@ -19,11 +20,16 @@ module.exports.index = async (req, res) => {
     const accFriend = myUser.acceptFriends;
     const unsuggestFriend = myUser.listCancelFriends;
     const idListFriends = friend.map(item => item.friend_id);
-    const user = await User.find({
-        _id: {$nin: [myID, ...reqFriend, ...accFriend, ...unsuggestFriend, ...idListFriends]},
+    const find = {
+        _id: { $nin: [myID, ...reqFriend, ...accFriend, ...unsuggestFriend, ...idListFriends] },
         deleted: false,
         status: "active"
-    });
+    }
+    const search = searchHelper.search(req.query);
+    if (search.regex) {
+        find.userName = search.regex;
+    }
+    const user = await User.find(find);
     res.render("friend/no-friend", {
         titlePage: "Gợi ý",
         user: user
@@ -40,14 +46,19 @@ module.exports.reqfriend = async (req, res) => {
         _id: myID,
         deleted: false
     }).select("requestFriends");
-     const requestFriends = myUser.requestFriends;
+    const requestFriends = myUser.requestFriends;
     const idRequest = requestFriends.map(item => item);
-    const user = await User.find({
-        _id: {$in: idRequest},
+    const find = {
+        _id: { $in: idRequest },
         deleted: false,
         status: "active"
-    });
-    
+    }
+    const search = searchHelper.search(req.query);
+    if (search.regex) {
+        find.userName = search.regex;
+    }
+    const user = await User.find(find);
+
     res.render("friend/request-friend", {
         titlePage: "Lời mời đã gửi",
         user: user
@@ -66,12 +77,17 @@ module.exports.acceptfriend = async (req, res) => {
     }).select("acceptFriends");
     const acceptFriend = myUser.acceptFriends;
     const idAccept = acceptFriend.map(item => item);
-    const user = await User.find({
-        _id: {$in: idAccept},
+    const find = {
+        _id: { $in: idAccept },
         deleted: false,
         status: "active"
-    });
-    
+    }
+    const search = searchHelper.search(req.query);
+    if (search.regex) {
+        find.userName = search.regex;
+    }
+    const user = await User.find(find);
+
     res.render("friend/accept-friend", {
         titlePage: "Lời mời kết bạn",
         user: user
@@ -81,7 +97,7 @@ module.exports.acceptfriend = async (req, res) => {
 // [GET] /friend/all-friends
 module.exports.allfriends = async (req, res) => {
     // Socket friend
-    socketFriend.friend(req, res);                  
+    socketFriend.friend(req, res);
     // End Socket friend
     const myID = res.locals.user.id;
     const myUser = await User.findOne({
@@ -90,12 +106,17 @@ module.exports.allfriends = async (req, res) => {
     }).select("listFriends");
     const listFriends = myUser.listFriends;
     const idListFriends = listFriends.map(item => item.friend_id);
-    const user = await User.find({
-        _id: {$in: idListFriends},
+    const find = {
+        _id: { $in: idListFriends },
         deleted: false,
         status: "active"
-    });
-    
+    }
+    const search = searchHelper.search(req.query);
+    if (search.regex) {
+        find.userName = search.regex;
+    }
+    const user = await User.find(find);
+
     res.render("friend/friend", {
         titlePage: "Danh sách bạn bè",
         user: user
