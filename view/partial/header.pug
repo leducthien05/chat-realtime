@@ -7,16 +7,22 @@ div(class="header")
     )
       input(type="text" placeholder="Tìm kiếm trên Linkup")
 
-  div(class="header-center")
-    div(class="menu-item active") 🏠
-    div(class="menu-item") 👥
-    div(class="menu-item") 🎥
-    div(class="menu-item") 🛒
+  
 
   div(class="header-right")
-    div(class="icon") ☰
-    div(class="icon") 💬
-    div(class="icon") 🔔
+    a(
+      href="/user/info"
+      class="icon"
+    ) #{Myuser.userName}
+    a(
+      chat-friend
+      href="/chat"
+      class="icon"
+    ) 💬
+    div(
+      href="/notification"
+      class="icon"
+    ) 🔔
     div(class="icon")
       a(
         class="icon"

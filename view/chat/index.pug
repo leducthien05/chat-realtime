@@ -1,38 +1,38 @@
-extends ../layout/default.pug
+extends ../layout/chat-default.pug
 
-block content
-    .chat-app.d-flex
+block main
+    .chat-area
+        .chat-header
+            .avatar-wrap
+                .avatar.av-purple(style="width:40px;height:40px") X
+                .online-dot
+            .chat-user-info
+                each item in myRoom 
+                    if(roomChat._id.toString() == item._id.toString())
+                        h2 #{item.infoFriend.userName}
+                    else 
+                        h2 #{roomChat.title}
+                span Đang hoạt động
 
-        //- Sidebar
-        include ../partial/sidebar.pug
+        div(
+            class="messages"
+            id="messages"
+        )
+            div(class="msg-row")
+                div(class="msg-avatar av-purple") X
+                div(class="bubble in") Ok rồi nhé
 
-        //- Main chat
-        .chat-main.flex-grow-1.d-flex.flex-column
+            div(class="msg-row out")
+                div(class="bubble out") Lô
 
-            //- Header
-            .chat-header.d-flex.justify-content-between.align-items-center
-                .d-flex.align-items-center
-                    img.avatar(src="https://i.pravatar.cc/40")
-                .ms-2
-                    .name Hội Bạn Thân ❤️
-                    .status.text-success Đang hoạt động
+        .chat-input
+            button.input-btn 🎤
+            button.input-btn 🖼️
+            button.input-btn 🙂
+            button.input-btn(style="font-size:13px;font-weight:700") GIF
 
-                .actions
-                    button.btn.btn-dark.btn-sm.me-2 📞
-                    button.btn.btn-dark.btn-sm.me-2 🎥
-                    button.btn.btn-dark.btn-sm ℹ️
+            .input-field-wrap
+                input#msgInput(type="text" placeholder="Aa" onkeydown="sendOnEnter(event)")
+                span.emoji-btn(onclick="addEmoji()") 😊
 
-            //- Body chat
-            .chat-body.flex-grow-1
-                .message.left
-                    span Xin chào! 👋
-                .message.right
-                    span Chào bạn!
-
-            //- Input
-            .chat-input
-                .d-flex.align-items-center
-                    button.btn.btn-dark.me-2 ➕
-                    input.form-control(type="text" placeholder="Aa")
-                    button.btn.btn-dark.ms-2 😊
-                    button.btn.btn-primary.ms-2 👍
+            button.input-btn.like-btn(onclick="sendLike()") 👍

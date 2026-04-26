@@ -1,0 +1,18 @@
+doctype html
+html(lang="vi")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Messenger
+    link(href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;500;600;700&display=swap" rel="stylesheet")
+    link(rel="stylesheet", href="/CSS/chat.css")
+  body
+    // ❗ giữ đúng structure gốc: KHÔNG bọc thêm div
+    include ../partial/sidebarChat.pug
+
+    // 👉 phần thay đổi
+    block main
+
+    include ../partial/info.pug
+
+    script(src="/JS/chat.js") 

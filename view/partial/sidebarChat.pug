@@ -1,0 +1,42 @@
+.sidebar
+    div(class="sidebar-header")
+        h1
+            | Đoạn chat
+            div(class="header-actions")
+                a(
+                    href="/home"
+                    class="tab"
+                    title="Trang chủ"
+                ) HOME
+
+        div(class="search-box")
+            form(
+                method="GET",
+                form-search
+            )
+                span(class="search-icon") 
+                input(
+                    type="text" 
+                    placeholder="Tìm kiếm trên Messenger"
+                )
+
+    div(class="tabs")
+        button(class="tab active") Tất cả
+        button(class="tab") Bạn bè
+        button(class="tab") Nhóm
+    div(class="conversation-list")
+        each item in myRoom
+            div(
+                data-room = item._id
+                class="conv-item"
+            )
+                div(class="avatar-wrap")
+                    div(class="avatar av-purple")
+                        img(
+                            src=item.infoFriend.avatar
+                        )
+                    if(item.infoFriend.statusOnline === "online")
+                        div(class="online-dot")
+                div(class="conv-info")
+                    div(class="conv-name") #{item.infoFriend.userName}
+                    //- .conv-preview Tôi lên trường r · 2 ngày
