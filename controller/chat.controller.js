@@ -38,6 +38,35 @@ module.exports.index = async (req, res) => {
 // [GET] /chat/room/:idRoom
 module.exports.roomChat = async (req, res) => {
     const idRoom = req.params.idRoom;
+    // Socket Send Mess
+    const UserAccount = res.locals.user;
+    _io.once('connection', (socket) => {
+        console.log('a user connected');
+        // Thêm người dùng vào nhóm
+        socket.join(idRoom);
+        socket.on("CLIENT_SEND_MESS", async (data) => {
+            const dataChat = {
+                user_id: data.myID,
+                content: data.content,
+                room_chat_id: idRoom
+            }
+            const chat = new Chat(dataChat);
+            await chat.save();
+            const userSend = await User.findOne({
+                _id: data.myID
+            }).select("userName");
+            _io.to(idRoom).emit("SERVER_RETURN_MESS", {
+                myID: data.myID,
+                content: data.content,
+                userName: userSend.userName
+            });
+        });
+
+    });
+    // End Socket Send Mess
+
+    // Lấy tin nhắn, thông tin phòng và thông tin thành viên nhóm in ra giao diện
+
     const allRoom = await Room.find({
         deleted: false,
         "user.user_id": res.locals.user.id
@@ -64,18 +93,27 @@ module.exports.roomChat = async (req, res) => {
     const user = await User.find({
         _id: { $in: idUser },
         deleted: false
-    });
+    }).select("avatar userName id");
     const userMap = {};
     user.forEach(item => {
-        userMap[item._id] = item.userName;
+        userMap[item._id] = item;
     });
     chat.forEach(item => {
-        item.userName = userMap[item.user_id]
+        item.infoUser = userMap[item.user_id];
     });
     const room = await Room.findOne({
         _id: idRoom
     });
-    
+    if (room.type_room == "friend") {
+        const idFriend = room.user.find(item => item.user_id != res.locals.user.id);
+        if (idFriend) {
+            const infoFriend = await User.findOne({
+                _id: idFriend.user_id,
+                deleted: false
+            });
+            room.infoFriend = infoFriend
+        }
+    }
     res.render("chat/index", {
         chats: chat,
         titlePage: "Message",
@@ -120,6 +158,6 @@ module.exports.createRoomPost = async (req, res) => {
     dataRoom.user = user;
     const room = new Room(dataRoom);
     await room.save();
-    res.send("ok");
+    res.redirect(`/chat/room/${room.id}`);
 }
 

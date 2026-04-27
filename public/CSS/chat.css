@@ -270,7 +270,7 @@ body {
 
 /* ───────── INPUT ───────── */
 .chat-input {
-  display: flex;
+  display: block;
   align-items: center;
   padding: 10px 12px;
   gap: 6px;
@@ -300,6 +300,8 @@ body {
   background: transparent;
   outline: none;
   width: 100%;
+  display: block;
+  flex: 1;
 }
 
 /* ───────── RIGHT PANEL ───────── */

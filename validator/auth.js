@@ -103,3 +103,19 @@ module.exports.changePassword = (req, res, next) => {
     }
     next();
 }
+
+module.exports.createRoom = (req, res, next) =>{
+    if (!req.body.title) {
+        req.flash("error", "Nhập tiêu đề nhóm");
+        res.redirect(req.get("referer") || "/");
+        return;
+    }
+
+    if (!Array.isArray(req.body.user_id)) {
+        req.flash("error", "Vui lòng chọn thêm người vào nhóm");
+        res.redirect(req.get("referer") || "/");
+        return;
+    }
+
+    next();
+}

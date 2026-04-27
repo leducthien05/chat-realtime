@@ -33,10 +33,10 @@
                 div(class="avatar-wrap")
                     div(class="avatar av-purple")
                         img(
-                            src=item.infoFriend.avatar
+                            src=(item.type_room == "friend" ? item.infoFriend.avatar : item.avatar)
                         )
-                    if(item.infoFriend.statusOnline === "online")
-                        div(class="online-dot")
+                    if(item.type_room == "friend")
+                        div(class=(item.infoFriend.statusOnline == "online" ? "online-dot" : ""))
                 div(class="conv-info")
-                    div(class="conv-name") #{item.infoFriend.userName}
+                    div(class="conv-name") #{(item.type_room == "friend" ? item.infoFriend.userName : item.title)}
                     //- .conv-preview Tôi lên trường r · 2 ngày
