@@ -33,10 +33,11 @@ block main
                         div(class="msg-avatar") 
                             img(
                                 src = chat.infoUser.avatar
-                                width="60"
+                                width="30"
+                                style="border-radius: 30px;"
                             )
                         div(class="bubble in") #{chat.content}
-            
+            .inner-list-typing
         .chat-input
             form(
                 form-chat

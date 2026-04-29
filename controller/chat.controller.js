@@ -2,6 +2,8 @@ const User = require("../model/user.model");
 const Room = require("../model/room.model");
 const Chat = require("../model/chat.model");
 
+const chatSocket = require("../socket/chat.socket");
+
 // [GET] /chat
 module.exports.index = async (req, res) => {
     try {
@@ -39,30 +41,7 @@ module.exports.index = async (req, res) => {
 module.exports.roomChat = async (req, res) => {
     const idRoom = req.params.idRoom;
     // Socket Send Mess
-    const UserAccount = res.locals.user;
-    _io.once('connection', (socket) => {
-        console.log('a user connected');
-        // Thêm người dùng vào nhóm
-        socket.join(idRoom);
-        socket.on("CLIENT_SEND_MESS", async (data) => {
-            const dataChat = {
-                user_id: data.myID,
-                content: data.content,
-                room_chat_id: idRoom
-            }
-            const chat = new Chat(dataChat);
-            await chat.save();
-            const userSend = await User.findOne({
-                _id: data.myID
-            }).select("userName");
-            _io.to(idRoom).emit("SERVER_RETURN_MESS", {
-                myID: data.myID,
-                content: data.content,
-                userName: userSend.userName
-            });
-        });
-
-    });
+    chatSocket(req, res);
     // End Socket Send Mess
 
     // Lấy tin nhắn, thông tin phòng và thông tin thành viên nhóm in ra giao diện
@@ -101,6 +80,7 @@ module.exports.roomChat = async (req, res) => {
     chat.forEach(item => {
         item.infoUser = userMap[item.user_id];
     });
+    console.log(idRoom);
     const room = await Room.findOne({
         _id: idRoom
     });
