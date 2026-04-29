@@ -270,14 +270,24 @@ body {
 
 /* ───────── INPUT ───────── */
 .chat-input {
-  display: block;
+  display: flex;
   align-items: center;
-  padding: 10px 12px;
   gap: 6px;
+  padding: 10px 12px;
   border-top: 1px solid var(--border);
-}
+  position: relative;
 
+  flex-wrap: nowrap;     /* ❗ quan trọng: không cho xuống dòng */
+}
+emoji-picker {
+  position: absolute;
+  bottom: 60px;
+  right: 10px;
+  z-index: 999;
+  display: none;
+}
 .input-btn {
+  flex-shrink: 0;       /* ❗ không bị ép nhỏ */
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -285,9 +295,16 @@ body {
   background: transparent;
   cursor: pointer;
 }
-
+.chat-input form {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  flex-wrap: nowrap;   /* ❗ không cho xuống dòng */
+}
 .input-field-wrap {
-  flex: 1;
+  flex: 1;              /* ❗ chiếm hết không gian còn lại */
+  min-width: 0;         /* ❗ tránh bị tràn */
   background: var(--hover);
   border-radius: 20px;
   display: flex;
@@ -296,12 +313,11 @@ body {
 }
 
 .input-field-wrap input {
+  flex: 1;
+  min-width: 0;         /* ❗ cực kỳ quan trọng */
   border: none;
   background: transparent;
   outline: none;
-  width: 100%;
-  display: block;
-  flex: 1;
 }
 
 /* ───────── RIGHT PANEL ───────── */
@@ -443,4 +459,22 @@ body {
   font-size: 14px;
   color: var(--muted);
   transition: transform 0.2s;
+}
+
+/* Icon */
+.tooltip {
+  position: absolute;
+  z-index: 9999;
+  display: none;
+}
+
+.tooltip.shown {
+  display: block;
+}
+
+/* 👇 QUAN TRỌNG */
+emoji-picker {
+  display: block;
+  width: 320px;
+  height: 400px;
 }

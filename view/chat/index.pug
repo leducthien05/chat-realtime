@@ -30,7 +30,11 @@ block main
                         div(class="bubble out") #{chat.content}
                 else 
                     div(class="msg-row")
-                        div(class="msg-avatar av-purple") #{chat.userName}
+                        div(class="msg-avatar") 
+                            img(
+                                src = chat.infoUser.avatar
+                                width="60"
+                            )
                         div(class="bubble in") #{chat.content}
             
         .chat-input
@@ -47,9 +51,12 @@ block main
                         id="msgInput" 
                         type="text" 
                         placeholder="Aa"
+                        name="content"
                     )
-                    
+                button(type="button" class="input-btn" id="emojiBtn") 🙂
 
                 //- button.input-btn.like-btn(onclick="sendLike()") 👍
+    div(class="tooltip" role="tooltip")
+        emoji-picker
 block script
-    script(src="/JS/chat.js") 
+    script(type="module" src="/JS/chat.js") 

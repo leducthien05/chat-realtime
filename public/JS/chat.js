@@ -55,3 +55,30 @@ socket.on("SERVER_RETURN_MESS", (data)=>{
     `;
     divBody.appendChild(div);
 });
+
+// Emoji-picker-element
+import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js'
+
+const btnIcon = document.querySelector("#emojiBtn");
+console.log(btnIcon);
+if (btnIcon) {
+    const tooltip = document.querySelector(".tooltip");
+    Popper.createPopper(btnIcon, tooltip);
+    btnIcon.addEventListener("click", () => {
+        tooltip.classList.toggle('shown');
+    });
+}
+
+// icon message
+const picker = document.querySelector("emoji-picker");
+if (picker) {
+    const input = document.querySelector(".chat-input .input-field-wrap input[name='content']");
+    picker.addEventListener("emoji-click", (event) => {
+        const icon = event.detail.unicode;
+        input.value = input.value + icon;
+        const end = input.value.length
+        input.focus();
+        input.setSelectionRange(end, end);
+
+    });
+}
