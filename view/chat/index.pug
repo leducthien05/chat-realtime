@@ -27,7 +27,12 @@ block main
             each chat in chats
                 if(chat.user_id == Myuser._id)
                     div(class="msg-row out")
-                        div(class="bubble out") #{chat.content}
+                        if(chat.content)
+                            div(class="bubble out") #{chat.content}
+                        if(chat.image.length > 0)
+                            .inner-images
+                                each item in chat.image
+                                    img(src=item)
                 else 
                     div(class="msg-row")
                         div(class="msg-avatar") 
@@ -36,8 +41,21 @@ block main
                                 width="30"
                                 style="border-radius: 30px;"
                             )
-                        div(class="bubble in") #{chat.content}
+                        if(chat.content)
+                            div(class="bubble in") #{chat.content}
+                        if(chat.image.length > 0)
+                            .inner-images
+                                each item in chat.image
+                                    img(src=item)
+                        
             .inner-list-typing
+        div(class="upload-wrapper hidden")
+            input(
+                type="file"
+                class="filepond"
+                name="filepond"
+                id="upload"
+            )
         .chat-input
             form(
                 form-chat
@@ -55,6 +73,8 @@ block main
                         name="content"
                     )
                 button(type="button" class="input-btn" id="emojiBtn") 🙂
+                button(type="button" class="input-btn" id="btnUpload") 🖼️
+                button(type="submit" class="input-btn" id="btnUpload") Gửi
 
                 //- button.input-btn.like-btn(onclick="sendLike()") 👍
     div(class="tooltip" role="tooltip")

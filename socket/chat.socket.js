@@ -2,6 +2,8 @@ const User = require("../model/user.model");
 const Room = require("../model/room.model");
 const Chat = require("../model/chat.model");
 
+const uploadImage = require("../helper/uploadToCloudinary");
+
 module.exports = async (req, res) => {
     const idRoom = req.params.idRoom;
     // Socket Send Mess
@@ -13,9 +15,21 @@ module.exports = async (req, res) => {
         // Thêm người dùng vào nhóm
         socket.join(idRoom);
         socket.on("CLIENT_SEND_MESS", async (data) => {
+            console.log(data)
+            let arrImage = [];
+            try {
+                for (const item of data.image) {
+                    const image = await uploadImage(item);
+                    arrImage.push(image);
+                }
+            } catch (error) {
+                console.log(error)
+            }
+            console.log(arrImage);
             const dataChat = {
                 user_id: data.myID,
                 content: data.content,
+                image: arrImage,
                 room_chat_id: idRoom
             }
             const chat = new Chat(dataChat);
@@ -26,7 +40,8 @@ module.exports = async (req, res) => {
             _io.to(idRoom).emit("SERVER_RETURN_MESS", {
                 myID: data.myID,
                 content: data.content,
-                user: userSend
+                user: userSend,
+                image: arrImage
             });
         });
         socket.on("CLIENT_SEND_TYPING", (content) => {

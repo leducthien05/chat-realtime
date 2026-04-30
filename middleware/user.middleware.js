@@ -10,7 +10,7 @@ module.exports.user = async (req, res, next) => {
             tokenUser: req.cookies.tokenUser
         }).select("-password");
         if (!user){
-            res.redirect("/user/login");
+            return res.redirect("/user/login");
         }else{
             res.locals.user = user;
             next();

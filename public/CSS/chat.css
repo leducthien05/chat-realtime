@@ -522,3 +522,86 @@ emoji-picker {
       opacity: 1;
   }
 }
+/* wrapper chứa filepond */
+.upload-wrapper {
+  width: 100%;
+  margin-top: 5px;
+}
+
+/* FilePond root */
+.filepond--root,
+.filepond--panel-root,
+.filepond--panel,
+.filepond--item-panel,
+.filepond--item {
+  background: #fff !important;
+  border-radius: 0 !important;
+}
+.filepond--root {
+  width: 100%;
+  max-height: 120px;
+  margin-top: 5px;
+}
+
+/* ===== QUAN TRỌNG: layout ngang ===== */
+.filepond--list {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 5px;
+}
+
+/* từng ảnh preview */
+.filepond--item {
+  width: 90px !important;
+  min-width: 90px;
+  height: 90px;
+}
+
+/* ảnh bên trong */
+.filepond--item-panel {
+  overflow: hidden;
+}
+
+/* không phá layout chat */
+.filepond--list-scroller {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* giữ input chat luôn cố định */
+.chat-input {
+  position: relative;
+  z-index: 20;
+}
+.filepond--drop-label {
+  display: none !important;
+}
+.hidden {
+  display: none;
+}
+/* hide credits */
+.filepond--credits {
+  display: none;
+}
+
+
+
+.inner-images {
+  max-width: 65%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 14px 2px;
+  border-radius: 18px;
+}
+
+.inner-images img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  background: #efefef;
+  border-radius: 5px;
+}

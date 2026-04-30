@@ -8,8 +8,8 @@ const infoMiddleware = require("../middleware/info.middleware");
 
 module.exports = (app)=>{
     app.use(infoMiddleware.info);
-    app.use("/home", userMiddleware.user, homeRouter);
+    app.use("/user", userRouter);
+    app.use("/", userMiddleware.user, homeRouter);
     app.use("/friend", userMiddleware.user, friendRouter);
     app.use("/chat", userMiddleware.user, chatRouter);
-    app.use("/user", userRouter);
 }

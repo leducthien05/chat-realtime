@@ -40,7 +40,7 @@ module.exports.loginPost = async (req, res) => {
             statusOnline: "online"
         });
     }
-    res.redirect("/home");
+    res.redirect("/");
 }
 // [GET] /user/register
 module.exports.register = async (req, res) => {
@@ -74,7 +74,7 @@ module.exports.registerPost = async (req, res) => {
         userId: req.userId,
         statusOnline: "online"
     });
-    res.redirect("/home");
+    res.redirect("/");
 }
 // [GET] /user/forgot-password
 module.exports.forgot = async (req, res) => {
@@ -176,7 +176,7 @@ module.exports.resetPasswordPost = async (req, res) => {
         deleted: false
     }).select("-password");
     res.cookie("tokenUser", user.tokenUser);
-    res.redirect("/home")
+    res.redirect("/")
 }
 // [GET] /user/logout
 module.exports.logout = async (req, res) => {

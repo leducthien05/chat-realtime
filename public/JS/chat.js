@@ -7,21 +7,66 @@ if (divChat.length > 0) {
         });
     });
 }
+// Upload-file-with-preview
+// register plugin
+FilePond.registerPlugin(
+    FilePondPluginImagePreview,
+    FilePondPluginFileValidateType
+);
+
+const pond = FilePond.create(document.querySelector('.filepond'), {
+    labelIdle: '',
+    labelDrop: '',
+    labelTapToCancel: '',
+    labelTapToRetry: '',
+    labelTapToUndo: '',
+    allowMultiple: true,
+    imagePreviewHeight: 120,
+    allowImagePreview: true,
+    allowImageExifOrientation: true,
+    instantUpload: false
+});
+// click button mở file picker
+const btnUpload = document.getElementById("btnUpload");
+const inputUpload = document.querySelector(".upload-wrapper");
+if (btnUpload) {
+    btnUpload.addEventListener("click", () => {
+        console.log("đã chạy vào đây")
+        document.querySelector('.filepond--browser').click();
+        inputUpload.classList.remove("hidden");
+    });
+}
 
 // Send Message
 const formSendMess = document.querySelector("[form-chat]");
+
 if (formSendMess) {
-    formSendMess.addEventListener("submit", (e) => {
+    formSendMess.addEventListener("submit", async (e) => {
         e.preventDefault();
+
         const divBody = document.querySelector(".messages");
         const myID = divBody.getAttribute("myID");
+        console.log(myID);
         const valueInput = formSendMess.querySelector("input").value;
-        if (valueInput != "") {
+
+        const files = pond.getFiles();
+        const buffers = [];
+
+        for (let item of files) {
+            const file = item.file;
+            const arrayBuffer = await file.arrayBuffer();
+            buffers.push(arrayBuffer);
+        }
+
+        if (valueInput !== "" || buffers.length > 0) {
             socket.emit("CLIENT_SEND_MESS", {
-                myID: myID,
-                content: valueInput
+                myID,
+                content: valueInput,
+                image: buffers
             });
+
             formSendMess.querySelector("input").value = "";
+            pond.removeFiles();
             socket.emit("CLIENT_SEND_TYPING", "hidden");
         }
     });
@@ -43,29 +88,61 @@ const showTyping = () => {
 socket.on("SERVER_RETURN_MESS", (data) => {
     const divBody = document.querySelector(".messages");
     const myID = divBody.getAttribute("myID");
+
     const div = document.createElement("div");
-    let html = ``;
-    let conten = ``;
-    let userName = ``;
+
+    let htmlImage = "";
+
+    // 👉 render images
+    if (data.image && data.image.length > 0) {
+        htmlImage += `<div class="inner-images">`;
+
+        for (const item of data.image) {
+            htmlImage += `<img src="${item}" />`;
+        }
+
+        htmlImage += `</div>`;
+    }
+
+    // 👉 message
+    let content = "";
+    let message = "";
+
     if (data.myID == myID) {
-        html = `
+        if (data.content) {
+            message = `
+            <div class="bubble out">
+                ${data.content}
+            </div>
+        `;
+        }
+        content = `
             <div class="msg-row out">
-                <div class="bubble out">${data.content}</div>
+                ${message}
+                ${htmlImage}
             </div>
         `;
     } else {
-        html = `
+        if (data.content) {
+            message = `
+            <div class="bubble in">
+                ${data.content}
+            </div>
+        `;
+        }
+        content = `
             <div class="msg-row">
                 <div class="msg-avatar av-purple">
-                    <image src=${data.user.avatar} width="60"
+                    <img src="${data.user.avatar}" width="30" />
                 </div>
+
+                ${message}
+                ${htmlImage}
             </div>
-            <div class="bubble in">${data.content}</div>
         `;
     }
-    div.innerHTML = `
-        ${html}
-    `;
+
+    div.innerHTML = content;
     divBody.appendChild(div);
 });
 
@@ -138,3 +215,9 @@ if (elementListTyping) {
 
 }
 // End SERVER_RETURN_TYPING
+
+// Preview-full-image
+const bodyChatPreviewImage = document.querySelector(".messages");
+if(bodyChatPreviewImage){
+    const gallery = new Viewer(bodyChatPreviewImage);
+}
