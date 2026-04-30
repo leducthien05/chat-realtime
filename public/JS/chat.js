@@ -7,6 +7,11 @@ if (divChat.length > 0) {
         });
     });
 }
+
+const divBody = document.querySelector(".messages");
+setTimeout(() => {
+    divBody.scrollTop = divBody.scrollHeight;
+}, 0);
 // Upload-file-with-preview
 // register plugin
 FilePond.registerPlugin(
@@ -88,8 +93,8 @@ const showTyping = () => {
 socket.on("SERVER_RETURN_MESS", (data) => {
     const divBody = document.querySelector(".messages");
     const myID = divBody.getAttribute("myID");
-
     const div = document.createElement("div");
+    const listTyping = document.querySelector(".messages .inner-list-typing");
 
     let htmlImage = "";
 
@@ -143,7 +148,10 @@ socket.on("SERVER_RETURN_MESS", (data) => {
     }
 
     div.innerHTML = content;
-    divBody.appendChild(div);
+
+    divBody.insertBefore(div, listTyping);
+    const gallery = new Viewer(divBody);
+    divBody.scrollTop = divBody.scrollHeight;
 });
 
 // Emoji-picker-element
@@ -210,7 +218,6 @@ if (elementListTyping) {
             }
         }
         divBody.scrollTop = divBody.scrollHeight;
-
     });
 
 }
