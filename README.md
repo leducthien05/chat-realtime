@@ -36,7 +36,11 @@ Hệ thống hỗ trợ nhiều người dùng cùng lúc, đồng bộ tin nh�
 - Cập nhật tin nhắn theo thời gian thực
 
 ---
-
+## ENV
+PORT=your_port
+MONGO_URL=your_uri
+EMAIL=your_email
+PASS_MAIL=your_pass
 ## 🚀 Installation
 
 ```bash
