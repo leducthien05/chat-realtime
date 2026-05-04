@@ -36,7 +36,11 @@
                             src=(item.type_room == "friend" ? item.infoFriend.avatar : item.avatar)
                         )
                     if(item.type_room == "friend")
-                        div(class=(item.infoFriend.statusOnline == "online" ? "online-dot" : ""))
+                        div(
+                            class=(item.infoFriend.statusOnline == "online" ? "online-dot" : "")
+                            data-status-online
+                        )
                 div(class="conv-info")
                     div(class="conv-name") #{(item.type_room == "friend" ? item.infoFriend.userName : item.title)}
                     //- .conv-preview Tôi lên trường r · 2 ngày
+    script(type="module" src="/JS/sidebarChat.js") 

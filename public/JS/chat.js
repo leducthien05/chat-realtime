@@ -228,3 +228,4 @@ const bodyChatPreviewImage = document.querySelector(".messages");
 if(bodyChatPreviewImage){
     const gallery = new Viewer(bodyChatPreviewImage);
 }
+

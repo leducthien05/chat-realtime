@@ -61,7 +61,6 @@ if (listBtnAccept.length > 0) {
 
 // CLIENT_CANCEL_FREQUEST
 const listBtnCancel = document.querySelectorAll("[btn-cancel-friend]");
-console.log(listBtnCancel)
 if (listBtnCancel.length > 0) {
     listBtnCancel.forEach(btn => {
         btn.addEventListener("click", (e) => {
